@@ -1,64 +1,75 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-#define SIZE 5
+#define LIMIT 5
 
-class Queue {
+class LineQueue
+{
 private:
-    int arr[SIZE];
-    int front, rear;
+    int num[LIMIT];
+    int first, last;
 
 public:
-    Queue() {
-        front = -1;
-        rear = -1;
+    LineQueue()
+    {
+        first = -1;
+        last = -1;
     }
 
-    void enqueue(int value) {
-        if (rear == SIZE - 1) {
+    void insert(int value)
+    {
+        if(last == LIMIT - 1)
+        {
             cout << "Queue Overflow\n";
             return;
         }
 
-        if (front == -1)
-            front = 0;
+        if(first == -1)
+            first = 0;
 
-        arr[++rear] = value;
+        num[++last] = value;
         cout << value << " inserted into queue\n";
     }
 
-    void dequeue() {
-        if (front == -1 || front > rear) {
+    void remove()
+    {
+        if(first == -1 || first > last)
+        {
             cout << "Queue Underflow\n";
             return;
         }
 
-        cout << arr[front++] << " deleted from queue\n";
+        cout << num[first++] << " deleted from queue\n";
     }
 
-    void display() {
-        if (front == -1 || front > rear) {
+    void show()
+    {
+        if(first == -1 || first > last)
+        {
             cout << "Queue is Empty\n";
             return;
         }
 
         cout << "Queue elements: ";
-        for (int i = front; i <= rear; i++)
-            cout << arr[i] << " ";
+
+        for(int i = first; i <= last; i++)
+            cout << num[i] << " ";
+
         cout << endl;
     }
 };
 
-int main() {
-    Queue q;
+int main()
+{
+    LineQueue q;
 
-    q.enqueue(10);
-    q.enqueue(20);
-    q.enqueue(30);
-    q.display();
+    q.insert(10);
+    q.insert(20);
+    q.insert(30);
+    q.show();
 
-    q.dequeue();
-    q.display();
+    q.remove();
+    q.show();
 
     return 0;
 }
