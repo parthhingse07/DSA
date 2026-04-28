@@ -1,73 +1,80 @@
+
 #include<iostream>
 using namespace std;
 
 struct Node {
-    int data;
+    int value;
     Node* next;
 };
 
-class Queue {
-    Node *front, *rear;
+class LineQueue {
+    Node *first, *last;
 
 public:
-    Queue() {
-        front = rear = NULL;
+    LineQueue() {
+        first = last = NULL;
     }
 
-    // Enqueue
-    void enqueue(int value) {
-        Node* temp = new Node();
-        temp->data = value;
-        temp->next = NULL;
+    void insert(int num) {
+        Node* newNode = new Node();
+        newNode->value = num;
+        newNode->next = NULL;
 
-        if (rear == NULL) {
-            front = rear = temp;
+        if (last == NULL) {
+            first = last = newNode;
         } else {
-            rear->next = temp;
-            rear = temp;
+            last->next = newNode;
+            last = newNode;
         }
-        cout << value << " inserted\n";
+
+        cout << num << " inserted\n";
     }
 
-    // Dequeue
-    void dequeue() {
-        if (front == NULL) {
+    void remove() {
+        if (first == NULL) {
             cout << "Queue Underflow\n";
             return;
         }
-        Node* temp = front;
-        cout << temp->data << " deleted\n";
-        front = front->next;
 
-        if (front == NULL) rear = NULL;
+        Node* temp = first;
+        cout << temp->value << " deleted\n";
+        first = first->next;
+
+        if (first == NULL)
+            last = NULL;
+
         delete temp;
     }
 
-    // Display
-    void display() {
-        if (front == NULL) {
+    void show() {
+        if (first == NULL) {
             cout << "Queue is empty\n";
             return;
         }
-        Node* temp = front;
+
+        Node* temp = first;
         cout << "Queue elements: ";
+
         while (temp != NULL) {
-            cout << temp->data << " ";
+            cout << temp->value << " ";
             temp = temp->next;
         }
+
         cout << endl;
     }
 };
 
 int main() {
-    Queue q;
-    q.enqueue(5);
-    q.enqueue(15);
-    q.enqueue(25);
-    q.display();
+    LineQueue q;
 
-    q.dequeue();
-    q.display();
+    q.insert(5);
+    q.insert(15);
+    q.insert(25);
+    q.show();
+
+    q.remove();
+    q.show();
 
     return 0;
 }
+```
