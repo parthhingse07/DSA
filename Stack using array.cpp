@@ -1,91 +1,110 @@
-#include <iostream>
+
+#include<iostream>
 using namespace std;
 
-int maxSize;
-int *stack;
-int top = -1;
+int sizeLimit;
+int *arr;
+int topPos = -1;
 
-bool isFull() {
-     urn top == maxSize - 1;
+bool fullCheck()
+{
+    return topPos == sizeLimit - 1;
 }
 
-bool isEmpty() {
-    return top == -1;
+bool emptyCheck()
+{
+    return topPos == -1;
 }
 
-void push(int value) {
-    if (isFull()) {
-        cout << "\n[!] Stack Overflow! Cannot add " << value << endl;
-    } else {
-        stack[++top] = value;
-        cout << "\n[+] " << value << " pushed to stack.\n";
+void insertItem(int num)
+{
+    if(fullCheck())
+    {
+        cout << "\n[!] Stack Overflow! Cannot add " << num << endl;
+    }
+    else
+    {
+        arr[++topPos] = num;
+        cout << "\n[+] " << num << " pushed to stack.\n";
     }
 }
 
-int pop() {
-    if (isEmpty()) {
+int deleteItem()
+{
+    if(emptyCheck())
+    {
         cout << "\n[!] Stack Underflow! No elements to remove.\n";
         return -1;
-    } else {
-        return stack[top--];
+    }
+    else
+    {
+        return arr[topPos--];
     }
 }
 
-void peek() {
-    if (isEmpty()) {
+void topItem()
+{
+    if(emptyCheck())
+    {
         cout << "\nStack is empty.\n";
-    } else {
-        cout << "\nTop element is: " << stack[top] << endl;
+    }
+    else
+    {
+        cout << "\nTop element is: " << arr[topPos] << endl;
     }
 }
 
-int main() {
-    int choice, value;
+int main()
+{
+    int ch, value;
 
     cout << "Enter maximum size of the stack: ";
-    cin >> maxSize;
+    cin >> sizeLimit;
 
-    if (maxSize <= 0) {
+    if(sizeLimit <= 0)
+    {
         cout << "Invalid size. Exiting...\n";
         return 1;
     }
 
-    stack = new int[maxSize];  
+    arr = new int[sizeLimit];
 
-    while (true) {
+    while(true)
+    {
         cout << "\n1. Push\n2. Pop\n3. Peek\n4. Check Empty/Full\n5. Exit\n";
         cout << "Enter your choice: ";
-        cin >> choice;
+        cin >> ch;
 
-        switch (choice) {
+        switch(ch)
+        {
             case 1:
                 cout << "Enter value to push: ";
                 cin >> value;
-                push(value);
+                insertItem(value);
                 break;
 
             case 2:
-                value = pop();
-                if (value != -1)
+                value = deleteItem();
+                if(value != -1)
                     cout << "Popped: " << value << endl;
                 break;
 
             case 3:
-                peek();
+                topItem();
                 break;
 
             case 4:
-                if (isFull())
+                if(fullCheck())
                     cout << "Stack is Full.\n";
-                else if (isEmpty())
+                else if(emptyCheck())
                     cout << "Stack is Empty.\n";
                 else
-                    cout << "Stack has space available (" 
-                         << top + 1 << "/" << maxSize << " used).\n";
+                    cout << "Stack has space available ("
+                         << topPos + 1 << "/" << sizeLimit << " used).\n";
                 break;
 
             case 5:
-                delete[] stack;   
+                delete[] arr;
                 cout << "Exiting...\n";
                 return 0;
 
@@ -96,3 +115,5 @@ int main() {
 
     return 0;
 }
+
+            
