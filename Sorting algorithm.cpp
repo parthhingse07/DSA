@@ -1,69 +1,95 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-void print(int *a, int n) {
-    for(int i = 0; i < n; i++)
-        cout << a[i] << " ";
+void display(int *x, int size)
+{
+    for(int i = 0; i < size; i++)
+        cout << x[i] << " ";
+
     cout << endl;
 }
 
-void bubble(int *a, int n) {
-    for(int i = 0; i < n - 1; i++)
-        for(int j = 0; j < n - i - 1; j++)
-            if(a[j] > a[j + 1])
-                swap(a[j], a[j + 1]); 
+void bubbleSort(int *x, int size)
+{
+    for(int i = 0; i < size - 1; i++)
+        for(int j = 0; j < size - i - 1; j++)
+            if(x[j] > x[j + 1])
+                swap(x[j], x[j + 1]);
 }
 
-void selection(int *a, int n) {
-    for(int i = 0; i < n - 1; i++) {
-        int min = i;
-        for(int j = i + 1; j < n; j++)
-            if(a[j] < a[min])
-                min = j;
-        swap(a[i], a[min]);
+void selectSort(int *x, int size)
+{
+    for(int i = 0; i < size - 1; i++)
+    {
+        int small = i;
+
+        for(int j = i + 1; j < size; j++)
+            if(x[j] < x[small])
+                small = j;
+
+        swap(x[i], x[small]);
     }
 }
 
-void insertion(int *a, int n) {
-    for(int i = 1; i < n; i++) {
-        int key = a[i];
+void insertSort(int *x, int size)
+{
+    for(int i = 1; i < size; i++)
+    {
+        int item = x[i];
         int j = i - 1;
-        while(j >= 0 && a[j] > key) {
-            a[j + 1] = a[j];
+
+        while(j >= 0 && x[j] > item)
+        {
+            x[j + 1] = x[j];
             j--;
         }
-        a[j + 1] = key;
+
+        x[j + 1] = item;
     }
 }
 
-int partition(int *a, int low, int high) {
-    int pivot = a[low];
-    int i = low + 1, j = high;
+int divide(int *x, int low, int high)
+{
+    int pivot = x[low];
+    int i = low + 1;
+    int j = high;
 
-    while(i <= j) {
-        while(i <= high && a[i] <= pivot) i++;
-        while(a[j] > pivot) j--;
+    while(i <= j)
+    {
+        while(i <= high && x[i] <= pivot)
+            i++;
+
+        while(x[j] > pivot)
+            j--;
+
         if(i < j)
-            swap(a[i], a[j]);
+            swap(x[i], x[j]);
     }
-    swap(a[low], a[j]);
+
+    swap(x[low], x[j]);
     return j;
 }
 
-void quickSort(int *a, int low, int high) {
-    if(low < high) {
-        int p = partition(a, low, high);
-        quickSort(a, low, p - 1);
-        quickSort(a, p + 1, high);
+void quick(int *x, int low, int high)
+{
+    if(low < high)
+    {
+        int pos = divide(x, low, high);
+
+        quick(x, low, pos - 1);
+        quick(x, pos + 1, high);
     }
 }
 
-int main() {
-    int n, choice;
+int main()
+{
+    int n, ch;
+
     cout << "Enter number of elements: ";
     cin >> n;
 
     int *arr = new int[n];
+
     cout << "Enter elements:\n";
     for(int i = 0; i < n; i++)
         cin >> arr[i];
@@ -74,26 +100,34 @@ int main() {
     cout << "3. Insertion Sort\n";
     cout << "4. Quick Sort\n";
     cout << "Enter choice: ";
-    cin >> choice;
+    cin >> ch;
 
-    switch(choice) {
-        case 1: bubble(arr, n); 
-        break;
-        case 2: 
-        selection(arr, n); 
-        break;
-        case 3: insertion(arr, n);
-         break;
-        case 4: quickSort(arr, 0, n - 1); 
-        break;
+    switch(ch)
+    {
+        case 1:
+            bubbleSort(arr, n);
+            break;
+
+        case 2:
+            selectSort(arr, n);
+            break;
+
+        case 3:
+            insertSort(arr, n);
+            break;
+
+        case 4:
+            quick(arr, 0, n - 1);
+            break;
+
         default:
-        cout << "Invalid choice";
-        delete[] arr;
-        return 0;
+            cout << "Invalid choice";
+            delete[] arr;
+            return 0;
     }
 
     cout << "Sorted array:\n";
-    print(arr, n);
+    display(arr, n);
 
     delete[] arr;
     return 0;
